@@ -19,7 +19,8 @@ def escalaCidades(ordem, menor=1, maior=9):
                 escala[a][b] = random.randint(menor, maior)
     return escala
 
-def populacao (tamanhoPopulacao, viagens):
+
+def populacao(tamanhoPopulacao, viagens):
     '''
     Inicia a população de individuos, de acordo com a quantidade de cidades existente.
     :param tamanhoPopulacao: é a quantidade de individuos que existem nessa pupulação
@@ -30,21 +31,23 @@ def populacao (tamanhoPopulacao, viagens):
     populacao = np.random.randint(10, size=(tamanhoPopulacao, viagens))
     return populacao
 
-def fitDistancia (matrizCidades, matrizElementos):
-   '''
+
+def fitDistancia(matrizElementos, matrizCidades = 4):
+    '''
    Função que faz o calculo da distancia percorrida por cada um dos elementos
    :param matrizCidades: No momento, não é util essa função
    :param matrizElementos: é a matriz onde estão elencados os elementos(individuos, população)
    :return: uma matriz com o resultado desse calculo
    '''
-   matrizResultadoDistancia = np.zeros((len(matrizElementos),1))
+    matrizResultadoDistancia = np.zeros((len(matrizElementos), 1))
 
-   for elemento in range(len(matrizElementos)):
+    for elemento in range(len(matrizElementos)):
         for caracteristica in range(len(matrizElementos[elemento])):
             matrizResultadoDistancia[elemento] += matrizElementos[elemento][caracteristica]
-   return matrizResultadoDistancia
+    return sum(matrizResultadoDistancia)
 
-def cruzamento (matrizElementos, cruzamentoTaxa):
+
+def cruzamento(matrizElementos, cruzamentoTaxa):
     '''
     Programa que faz o cruzamento de "genes" entre duas populaçoes, de acordo com a taxa de cruzamento
     a taxa de cruzamento é uma porcentagem da quantidade de caracteristicas do elemento. ou seja, se for setada
@@ -53,58 +56,73 @@ def cruzamento (matrizElementos, cruzamentoTaxa):
     :param cruzamentoTaxa: é a porcentagem de caracteristicas que serão cruzadas
     :return: retorna uma matriz com novos elementos cruzados
     '''
-    matrizGeracaoNova = np.zeros((len(matrizElementos),len(matrizElementos[1])))
+    matrizGeracaoNova = np.zeros((len(matrizElementos), len(matrizElementos[1])))
     for elementos in range(len(matrizElementos)):
         for caracteristica in range(len(matrizElementos[elementos])):
-            if caracteristica < cruzamentoTaxa*len(matrizElementos[elementos]):
+            if caracteristica < cruzamentoTaxa * len(matrizElementos[elementos]):
                 matrizGeracaoNova[elementos][caracteristica] = matrizElementos[elementos][caracteristica]
             else:
                 try:
-                    matrizGeracaoNova[elementos][caracteristica] = matrizElementos[elementos+1][caracteristica]
+                    matrizGeracaoNova[elementos][caracteristica] = matrizElementos[elementos + 1][caracteristica]
                 except:
                     matrizGeracaoNova[elementos][caracteristica] = matrizElementos[0][caracteristica]
 
     return matrizGeracaoNova
 
-def mutacao (matrizElementos, mutacaoTaxa):
+
+def mutacao(matrizElementos, mutacaoTaxa):
     '''
     Função que faz a "mutação" de caracteristicas de cada individuo, a quantidade de caracteristicas é definido pela taxa
     :param matrizElementos: Matriz que possui a população
     :param mutacaoTaxa: é a taxa de caracteristicas que serão mutacionadas
     :return: uma nova matriz com a nova geração
     '''
-    qntRandom = round(len(matrizElementos[1])*mutacaoTaxa)
+    qntRandom = round(len(matrizElementos[1]) * mutacaoTaxa)
     matrizGeracaoNova = matrizElementos.copy()
     for elementos in range(len(matrizElementos)):
         for caracteristica in range(len(matrizElementos[elementos])):
             if caracteristica < qntRandom:
                 ValorCaracteristicaRandom = random.randint(0, 9)
-                PosicaoCaracteristicaRandom = random.randint(0, len(matrizElementos[1])-1)
+                PosicaoCaracteristicaRandom = random.randint(0, len(matrizElementos[1]) - 1)
                 matrizGeracaoNova[elementos][PosicaoCaracteristicaRandom] = ValorCaracteristicaRandom
     return matrizGeracaoNova
 
+def aplicacao(geracoes, matrizElementos):
+    '''
+    É o programa principal, que faz a passagem das gerações
+    :param geracoes:
+    :param matrizElementos:
+    :return:
+    '''
+    for linhagem in range(geracoes):
+        novosElementos = matrizElementos.copy()
+        print(fitDistancia(novosElementos))
+        print(f"Geração: {linhagem}")
+        novosElementos = cruzamento(novosElementos,cruzamentoTaxa)
+        novosElementos = mutacao(novosElementos, mutacaoTaxa)
+        if fitDistancia(novosElementos) < fitDistancia(matrizElementos):
+            matrizElementos = novosElementos.copy()
+        else:
+            matrizElementos = matrizElementos.copy()
 
-#Parametros iniciais
-quantidadeCidades = 4
-pessoas = 5
-viagens = 4
-geracoes = 10
-matrizCidades = escalaCidades(quantidadeCidades)
-matrizElementos = populacao(pessoas,viagens)
+    return matrizElementos
 
+# Parametros iniciais
+quantidadeCidades = 4  # Para criar a matriz de cidades
+pessoas = 5  # População
+viagens = 5  # Caracteristicas
+geracoes = 50000
 
-
-#Parametors para criação de novos individuos
+# Parametors para criação de novos individuos
 cruzamentoTaxa = 0.5
-mutacaoTaxa = 0.2
-novaMatrizMutacao = mutacao(matrizElementos,mutacaoTaxa)
-novaMatrizCruzamento = cruzamento(matrizElementos,cruzamentoTaxa)
+mutacaoTaxa = 0.5
+
+matrizCidades = escalaCidades(quantidadeCidades)
+matrizElementos = populacao(pessoas, viagens)
+
+
+
+
+resultado = aplicacao(geracoes, matrizElementos)
 print(matrizElementos)
-print(novaMatrizCruzamento)
-print(novaMatrizMutacao)
-ResultadoMatriz1 = fitDistancia(matrizCidades,matrizElementos)
-ResultadoMatriz2= fitDistancia(matrizCidades,novaMatrizCruzamento)
-ResultadoMatriz3 = fitDistancia(matrizCidades,novaMatrizMutacao)
-print(ResultadoMatriz1)
-print(ResultadoMatriz2)
-print(ResultadoMatriz3)
+print(resultado)
