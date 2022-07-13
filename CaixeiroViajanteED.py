@@ -21,7 +21,6 @@ def fitDistancia(matrizElemento, matrizCidades):
     """
    Função que faz o calculo da distancia percorrida por cada um dos elementos
    :param matrizCidades: No momento, não é util essa função
-   :param matrizElementos: é a matriz onde estão elencados os elementos(individuos, população)
    :return: uma matriz com o resultado desse calculo
    """
     matrizResultadoDistancia = np.zeros((len(matrizElemento), 1))
@@ -62,17 +61,21 @@ def mutacao(matrizElementos, mutacaoTaxa):
     valorMaximo = (max([valor for linha in matrizElementos for valor in linha]))
     qntRandom = round(len(matrizElementos[1]) * mutacaoTaxa)
     matrizGeracaoNova = matrizElementos.copy()
+    aux = 1
+    contador = 0
     for elementos in range(len(matrizElementos)):
         for caracteristica in range(len(matrizElementos[elementos])):
             if caracteristica < qntRandom:
                 ValorCaracteristicaRandom = random.randint(0, valorMaximo)
                 PosicaoCaracteristicaRandom = random.randint(0, len(matrizElementos[1]) - 1)
                 while not(ValorCaracteristicaRandom not in matrizGeracaoNova[elementos]):
+                    contador += 1
                     ValorCaracteristicaRandom = random.randint(0, valorMaximo)
-                    if ValorCaracteristicaRandom == matrizGeracaoNova[elementos][0]:
-                        matrizGeracaoNova[elementos][len(matrizElementos[1])-1] = ValorCaracteristicaRandom
+                    if contador >= 99:
+                        aux = 0
                         break
-                matrizGeracaoNova[elementos][PosicaoCaracteristicaRandom] = ValorCaracteristicaRandom
+                if aux == 1:
+                    matrizGeracaoNova[elementos][PosicaoCaracteristicaRandom] = ValorCaracteristicaRandom
     return matrizGeracaoNova
 
 def cruzamento(matrizElementos, cruzamentoTaxa):
@@ -126,8 +129,8 @@ def aplicacao(geracoes, matrizElementos, matrizCidade):
 # Parametros iniciais
 quantidadeCidades = 4  # Para criar a matriz de cidades
 pessoas = 5  # População
-viagens = 3 # Caracteristicas
-geracoes = 5000
+viagens = 4 # Caracteristicas
+geracoes = 1000
 
 # Parametors para criação de novos individuos
 cruzamentoTaxa = 0.4
