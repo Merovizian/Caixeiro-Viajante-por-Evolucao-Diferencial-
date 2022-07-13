@@ -1,9 +1,8 @@
 import random
 import numpy as np
 
-
 # PROGRAMA QUE CRIA A MATRIZ DE DISTANCIA ENTRE AS CIDADES:
-def escalaCidades(ordem, menor=1, maior=9):
+def escalaCidades(ordem, menor, maior):
     '''
     FUNCAO QUE CRIA UMA MATRIZ DE DISTANCIA ENTRE AS CIDASDES
     :param ordem: tamanho da matriz, ou seja, quantidade de cidade
@@ -11,7 +10,6 @@ def escalaCidades(ordem, menor=1, maior=9):
     :param maior: maior distancia entre as cidades
     :return: retorna a matriz contendo as cidades e a distancia entre elas
     '''
-
     escala = np.zeros((ordem, ordem))
     for a in range(ordem):
         for b in range(ordem):
@@ -19,33 +17,37 @@ def escalaCidades(ordem, menor=1, maior=9):
                 escala[a][b] = random.randint(menor, maior)
     return escala
 
-
-def populacao(tamanhoPopulacao, viagens):
+#Programa que gera a primeira população
+def populacao(tamanhoPopulacao,ordem):
     '''
     Inicia a população de individuos, de acordo com a quantidade de cidades existente.
+    Cada individuo carrega consigo caracteristicas, que são as cidades por onde esse individuo irá passar
     :param tamanhoPopulacao: é a quantidade de individuos que existem nessa pupulação
-    :param viagens: é a caracteristica de cada um dos individuos, ou seja por quais cidades eles vão percorrer
+    :param ordem: é a caracteristica de cada um dos individuos, ou seja por quais cidades eles vão percorrer, esse valor
+    tem que ser igual a quantidade de cidades, sem repetir
     :return:
     '''
+    elementos = list
+    povoacao = np.zeros((tamanhoPopulacao, ordem + 1))
+    for a in range(tamanhoPopulacao):
+        elementos = random.sample(range(0, ordem), ordem)
+        elementos.append(elementos[0])
+        povoacao[a] = elementos
 
-    populacao = np.random.randint(10, size=(tamanhoPopulacao, viagens))
-    return populacao
+    return povoacao
 
-
-def fitDistancia(matrizElementos, matrizCidades = 4):
-    '''
+def fitDistancia(matrizElementos):
+    """
    Função que faz o calculo da distancia percorrida por cada um dos elementos
    :param matrizCidades: No momento, não é util essa função
    :param matrizElementos: é a matriz onde estão elencados os elementos(individuos, população)
    :return: uma matriz com o resultado desse calculo
-   '''
+   """
     matrizResultadoDistancia = np.zeros((len(matrizElementos), 1))
-
     for elemento in range(len(matrizElementos)):
         for caracteristica in range(len(matrizElementos[elemento])):
             matrizResultadoDistancia[elemento] += matrizElementos[elemento][caracteristica]
     return sum(matrizResultadoDistancia)
-
 
 def cruzamento(matrizElementos, cruzamentoTaxa):
     '''
@@ -68,7 +70,6 @@ def cruzamento(matrizElementos, cruzamentoTaxa):
                     matrizGeracaoNova[elementos][caracteristica] = matrizElementos[0][caracteristica]
 
     return matrizGeracaoNova
-
 
 def mutacao(matrizElementos, mutacaoTaxa):
     '''
@@ -98,7 +99,7 @@ def aplicacao(geracoes, matrizElementos):
         novosElementos = matrizElementos.copy()
         print(fitDistancia(novosElementos))
         print(f"Geração: {linhagem}")
-        novosElementos = cruzamento(novosElementos,cruzamentoTaxa)
+        novosElementos = cruzamento(novosElementos, cruzamentoTaxa)
         novosElementos = mutacao(novosElementos, mutacaoTaxa)
         if fitDistancia(novosElementos) < fitDistancia(matrizElementos):
             matrizElementos = novosElementos.copy()
@@ -107,22 +108,24 @@ def aplicacao(geracoes, matrizElementos):
 
     return matrizElementos
 
+
 # Parametros iniciais
-quantidadeCidades = 4  # Para criar a matriz de cidades
+quantidadeCidades = 3  # Para criar a matriz de cidades
 pessoas = 5  # População
-viagens = 5  # Caracteristicas
+# viagens = 5  # Caracteristicas
 geracoes = 50000
 
 # Parametors para criação de novos individuos
 cruzamentoTaxa = 0.5
 mutacaoTaxa = 0.5
 
-matrizCidades = escalaCidades(quantidadeCidades)
-matrizElementos = populacao(pessoas, viagens)
+
+elementos = populacao(10,10)
+print(elementos)
 
 
 
 
-resultado = aplicacao(geracoes, matrizElementos)
-print(matrizElementos)
-print(resultado)
+#matrizCidades = escalaCidades(quantidadeCidades)
+#matrizCidades = [[0, 3, 5], [2, 0, 8], [1, 4, 0]]
+#print(escalaCidades(5,2,5))
