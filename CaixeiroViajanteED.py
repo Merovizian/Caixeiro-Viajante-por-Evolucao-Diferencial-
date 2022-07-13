@@ -1,6 +1,5 @@
 import random
 import numpy as np
-import numpy as np
 import matplotlib.pyplot as plt
 
 def escalaCidades(ordem, menor=1, maior=9):
@@ -70,6 +69,9 @@ def mutacao(matrizElementos, mutacaoTaxa):
                 PosicaoCaracteristicaRandom = random.randint(0, len(matrizElementos[1]) - 1)
                 while not(ValorCaracteristicaRandom not in matrizGeracaoNova[elementos]):
                     ValorCaracteristicaRandom = random.randint(0, valorMaximo)
+                    if ValorCaracteristicaRandom == matrizGeracaoNova[elementos][0]:
+                        matrizGeracaoNova[elementos][len(matrizElementos[1])-1] = ValorCaracteristicaRandom
+                        break
                 matrizGeracaoNova[elementos][PosicaoCaracteristicaRandom] = ValorCaracteristicaRandom
     return matrizGeracaoNova
 
@@ -122,33 +124,21 @@ def aplicacao(geracoes, matrizElementos, matrizCidade):
     return matrizElementos, matrizFit
 
 # Parametros iniciais
-quantidadeCidades = 10  # Para criar a matriz de cidades
-pessoas = 50  # População
-viagens = 5  # Caracteristicas
-geracoes = 100
-listaGerações = list(range(geracoes))
+quantidadeCidades = 4  # Para criar a matriz de cidades
+pessoas = 5  # População
+viagens = 3 # Caracteristicas
+geracoes = 5000
 
 # Parametors para criação de novos individuos
-cruzamentoTaxa = 0.3
-mutacaoTaxa = 0.1
-
+cruzamentoTaxa = 0.4
+mutacaoTaxa = 0.2
 
 #APLICACAO DO PROGRAMA
-matrizCidades = escalaCidades(quantidadeCidades)
+matrizCidades = [[0,3,2,8],[4,0,9,1],[3,9,0,5],[9,6,5,0]]
+#matrizCidades = escalaCidades(quantidadeCidades)
 elementos = populacao(pessoas, viagens, quantidadeCidades)
 novos = cruzamento(elementos,cruzamentoTaxa)
 resultado, matrizfit = aplicacao(geracoes,elementos,matrizCidades)
-
-
-
-'''
-plt.axis([-10, 60, 0, 11])
-plt.title("Mais incrementado")
-
-plt.grid(True)
-plt.xlabel("eixo horizontal")
-plt.ylabel("que legal")
-plt.show()'''
 
 print("***MATRIZ PRINCIPAL DAS ROTAS***")
 print(matrizCidades)
