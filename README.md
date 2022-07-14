@@ -11,6 +11,7 @@ Programa em python que faz a optimização do PCV para achar a melhor solução 
 - numpy
 
 ## Tutorial
+Importante: A configuração inicial deste algoritmo impede que as caracteristicas de cada individuo se repitam
 
 O programa esta com comentarios descrevendo cada uma das funções. Basta escolher as caracteristicas do problema como:
 - Quantidade de gerações.
@@ -25,3 +26,7 @@ E também determinar os valores para cada um dos optimizadores que são:
 ## Feedback
 
 Caso tenha alguma dúvida, sugestão ou tenha encontrado algum erro, por favor mande um email para ericgmicaela@gmail.com
+
+## MaiorOUmenorVetor
+
+Este programa utiliza a mesma forma de optimização do caixeiro viajante, porem com a finalidade de se ter a maior ou menor soma de caracteristicas de cada geração. 
