@@ -162,3 +162,4 @@ plt.ylabel("SOMA DAS DISTANCIAS")
 plt.show()
 
 print("ericgmicaela@gmail")
+
