@@ -90,17 +90,9 @@ def mutacao(matrizElementos, mutacaoTaxa):
     for elementos in range(len(matrizElementos)):
         for caracteristica in range(len(matrizElementos[elementos])):
             if caracteristica < qntRandom:
-                ValorCaracteristicaRandom = random.randint(0, valorMaximo)
+                ValorCaracteristicaRandom = random.randint(0, 9)
                 PosicaoCaracteristicaRandom = random.randint(0, len(matrizElementos[1]) - 1)
-                while not(ValorCaracteristicaRandom not in matrizGeracaoNova[elementos]):
-                    contador += 1
-                    ValorCaracteristicaRandom = random.randint(0, valorMaximo)
-                    if contador >= 99:
-                        aux = 0
-                        contador = 0
-                        break
-                if aux == 1:
-                    matrizGeracaoNova[elementos][PosicaoCaracteristicaRandom] = ValorCaracteristicaRandom
+                matrizGeracaoNova[elementos][PosicaoCaracteristicaRandom] = ValorCaracteristicaRandom
     return matrizGeracaoNova
 
 def aplicacao(geracoes, matrizElementos):
@@ -127,16 +119,14 @@ def aplicacao(geracoes, matrizElementos):
     return matrizElementos, matrizFit
 
 # Parametros iniciais
-quantidadeCidades = 4  # Para criar a matriz de cidades
-pessoas = 20  # População
-viagens = 15  # Caracteristicas
-geracoes = 10
+pessoas = 5  # População
+viagens = 5  # Caracteristicas
+geracoes = 50000
 
 # Parametors para criação de novos individuos
-cruzamentoTaxa = 0.6
-mutacaoTaxa = 0.4
+cruzamentoTaxa = 0.5
+mutacaoTaxa = 0.2
 
-matrizCidades = escalaCidades(quantidadeCidades)
 matrizElementos = populacao(pessoas, viagens)
 
 

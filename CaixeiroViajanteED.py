@@ -115,7 +115,7 @@ def aplicacao(geracoes, matrizElementos, matrizCidade):
     matrizFit = list()
     for linhagem in range(geracoes):
         novosElementos = matrizElementos.copy()
-        print(sum(fitDistancia(novosElementos,matrizCidade))/len(matrizElementos))
+        print(sum(fitDistancia(novosElementos,matrizCidade))/(len(matrizElementos)*(len(matrizElementos[0]))))
         matrizFit.append(int(sum(fitDistancia(novosElementos,matrizCidade))))
         print(f"Geração: {linhagem}")
         novosElementos = cruzamento(novosElementos, cruzamentoTaxa)
@@ -128,10 +128,10 @@ def aplicacao(geracoes, matrizElementos, matrizCidade):
     return matrizElementos, matrizFit
 
 # Parametros iniciais
-quantidadeCidades = 4  # Para criar a matriz de cidades
-pessoas = 5  # População
-viagens = 4 # Caracteristicas
-geracoes = 1000
+quantidadeCidades = 10  # Para criar a matriz de cidades
+pessoas = 10  # População
+viagens = 5 # Caracteristicas
+geracoes = 10000
 
 # Parametors para criação de novos individuos
 cruzamentoTaxa = 0.4
