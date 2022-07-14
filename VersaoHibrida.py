@@ -17,22 +17,20 @@ def escalaCidades(ordem, menor=1, maior=9):
                 escala[a][b] = random.randint(menor, maior)
     return escala
 
-def fitDistancia(matrizElemento, matrizCidades):
-    """
+def fitDistancia(matrizElementos, matrizCidades = 4):
+    '''
    Função que faz o calculo da distancia percorrida por cada um dos elementos
    :param matrizCidades: No momento, não é util essa função
+   :param matrizElementos: é a matriz onde estão elencados os elementos(individuos, população)
    :return: uma matriz com o resultado desse calculo
-   """
-    matrizResultadoDistancia = np.zeros((len(matrizElemento), 1))
-    for count, value in enumerate(matrizElemento):
-        for countA, valueA in enumerate(matrizElemento[count]):
-            try:
-                valorA = int(valueA)
-                valorB = int(matrizElemento[count][countA + 1])
-                matrizResultadoDistancia[count] += matrizCidades[valorA][valorB]
-            except:
-                pass
-    return matrizResultadoDistancia
+   '''
+    matrizResultadoDistancia = np.zeros((len(matrizElementos), 1))
+
+    for elemento in range(len(matrizElementos)):
+        for caracteristica in range(len(matrizElementos[elemento])):
+            matrizResultadoDistancia[elemento] += matrizElementos[elemento][caracteristica]
+    return sum(matrizResultadoDistancia)
+
 
 def populacao(tamanhoPopulacao,viagens ,ordem):
     '''
@@ -73,7 +71,6 @@ def mutacao(matrizElementos, mutacaoTaxa):
                     ValorCaracteristicaRandom = random.randint(0, valorMaximo)
                     if contador >= 99:
                         aux = 0
-                        contador = 0
                         break
                 if aux == 1:
                     matrizGeracaoNova[elementos][PosicaoCaracteristicaRandom] = ValorCaracteristicaRandom
@@ -138,7 +135,8 @@ cruzamentoTaxa = 0.4
 mutacaoTaxa = 0.2
 
 #APLICACAO DO PROGRAMA
-matrizCidades = escalaCidades(quantidadeCidades)
+matrizCidades = [[0,3,2,8],[4,0,9,1],[3,9,0,5],[9,6,5,0]]
+#matrizCidades = escalaCidades(quantidadeCidades)
 elementos = populacao(pessoas, viagens, quantidadeCidades)
 novos = cruzamento(elementos,cruzamentoTaxa)
 resultado, matrizfit = aplicacao(geracoes,elementos,matrizCidades)
