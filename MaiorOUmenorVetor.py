@@ -103,28 +103,30 @@ def aplicacao(geracoes, matrizElementos):
     :return:
     '''
     matrizFit = list()
-
-    for linhagem in range(geracoes):
-        novosElementos = matrizElementos.copy()
-        print(fitDistancia(novosElementos))
-        print(f"Geração: {linhagem}")
-        matrizFit.append(int(sum(fitDistancia(novosElementos))))
-        novosElementos = cruzamento(novosElementos,cruzamentoTaxa)
-        novosElementos = mutacao(novosElementos, mutacaoTaxa)
-        if fitDistancia(novosElementos) > fitDistancia(matrizElementos):
-            matrizElementos = novosElementos.copy()
-        else:
-            matrizElementos = matrizElementos.copy()
+    try:
+        for linhagem in range(geracoes):
+            novosElementos = matrizElementos.copy()
+            print(fitDistancia(novosElementos))
+            print(f"Geração: {linhagem}")
+            matrizFit.append(int(sum(fitDistancia(novosElementos))))
+            novosElementos = cruzamento(novosElementos,cruzamentoTaxa)
+            novosElementos = mutacao(novosElementos, mutacaoTaxa)
+            if fitDistancia(novosElementos) > fitDistancia(matrizElementos):
+                matrizElementos = novosElementos.copy()
+            else:
+                matrizElementos = matrizElementos.copy()
+    except:
+        return matrizElementos, matrizFit
 
     return matrizElementos, matrizFit
 
 # Parametros iniciais
 pessoas = 5  # População
 viagens = 5  # Caracteristicas
-geracoes = 50000
+geracoes = 5000000
 
 # Parametors para criação de novos individuos
-cruzamentoTaxa = 0.5
+cruzamentoTaxa = 0.3
 mutacaoTaxa = 0.2
 
 matrizElementos = populacao(pessoas, viagens)

@@ -113,17 +113,20 @@ def aplicacao(geracoes, matrizElementos, matrizCidade):
     :return:
     '''
     matrizFit = list()
-    for linhagem in range(geracoes):
-        novosElementos = matrizElementos.copy()
-        print(sum(fitDistancia(novosElementos,matrizCidade))/(len(matrizElementos)*(len(matrizElementos[0]))))
-        matrizFit.append(int(sum(fitDistancia(novosElementos,matrizCidade))))
-        print(f"Geração: {linhagem}")
-        novosElementos = cruzamento(novosElementos, cruzamentoTaxa)
-        novosElementos = mutacao(novosElementos, mutacaoTaxa)
-        if sum(fitDistancia(novosElementos, matrizCidade)) < sum(fitDistancia(matrizElementos,matrizCidade)):
-            matrizElementos = novosElementos.copy()
-        else:
-            matrizElementos = matrizElementos.copy()
+    try:
+        for linhagem in range(geracoes):
+            novosElementos = matrizElementos.copy()
+            print(sum(fitDistancia(novosElementos,matrizCidade))/(len(matrizElementos)*(len(matrizElementos[0]))))
+            matrizFit.append(int(sum(fitDistancia(novosElementos,matrizCidade))))
+            print(f"Geração: {linhagem}")
+            novosElementos = cruzamento(novosElementos, cruzamentoTaxa)
+            novosElementos = mutacao(novosElementos, mutacaoTaxa)
+            if sum(fitDistancia(novosElementos, matrizCidade)) < sum(fitDistancia(matrizElementos,matrizCidade)):
+                matrizElementos = novosElementos.copy()
+            else:
+                matrizElementos = matrizElementos.copy()
+    except:
+        return matrizElementos, matrizFit
 
     return matrizElementos, matrizFit
 
