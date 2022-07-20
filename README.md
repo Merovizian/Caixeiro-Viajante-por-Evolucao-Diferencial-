@@ -3,17 +3,18 @@
 por Eric Giobini
 
 ## O que é?
-Programa em python que faz a optimização do PCV para achar a melhor solução possível.
+Programa em python que faz a otimização do PCV para achar a melhor solução possível.
 
 ## Requisitos
 
 - Python3
 - numpy
+- matplotlib
 
 ## Tutorial
-Importante: A configuração inicial deste algoritmo impede que as caracteristicas de cada individuo se repitam
+Importante: A configuração inicial deste algoritmo impede que as caracteristicas de cada indivíduo se repitam
 
-O programa esta com comentarios descrevendo cada uma das funções. Basta escolher as caracteristicas do problema como:
+O programa está com comentarios descrevendo cada uma das funções. Basta escolher as caracteristicas do problema como:
 - Quantidade de gerações.
 - Quantidade de individuos.
 - Quantidade de caracteristicas.
@@ -29,4 +30,4 @@ Caso tenha alguma dúvida, sugestão ou tenha encontrado algum erro, por favor m
 
 ## MaiorOUmenorVetor
 
-Este programa utiliza a mesma forma de optimização do caixeiro viajante, porem com a finalidade de se ter a maior ou menor soma de caracteristicas de cada geração. 
+Este programa utiliza a mesma forma de otimização do caixeiro viajante, porem com a finalidade de se ter a maior ou menor soma de caracteristicas de cada geração. 
