@@ -47,7 +47,7 @@ def fitDistancia(matrizPopulacao, matrizItinerario):
                 # faz o cálculo da distância, onde se pega duas caracteristicas sequenciais de uma pessoa e aplica na
                 # matriz de distâncias
                 matrizResultadoDistancia[count] += matrizItinerario[valorA][valorB]
-            except:
+            except IndexError:
                 # O try serve, pois, após pegar as duas últimas caracteristicas o programa tentará pegar um valor
                 # que extrepola o vetor de pessoa
                 pass
@@ -101,7 +101,6 @@ def mutacao(matrizElementos, taxa, ordem):
     posRandom = random.sample(range(0, len(matrizElementos[1])), qntRandom)
     # Copia-se a matriz de individuos para uma nova matriz.
     matrizGeracaoNova = matrizElementos.copy()
-    aux = 1
     contador = 0
     # ‘Loop’ que percorre cada individuo da população
     for elemento in matrizGeracaoNova:
@@ -135,7 +134,7 @@ def cruzamento(matrizElementos, taxa):
     elementos serão cruzadas.
     :param matrizElementos: é a matriz que possui os elementos, a população.
     :param taxa: é a porcentagem de caracteristicas que serão cruzadas.
-    :return: retorna uma matriz com novos elementos cruzados
+    :return: retorna uma matriz com novos elementos cruzados.
     """
 
     matrizGeracaoNova = matrizElementos.copy()
@@ -144,7 +143,7 @@ def cruzamento(matrizElementos, taxa):
         # 'Loop' para percorrer a posição de cada caracteristica de cada indivíduo
         for caracteristica in range(len(matrizElementos[elemento])):
             # Priorizei posições em sequência, pois faz mais sentido assim, ao inves de usar posições randônicas
-            if caracteristica < cruzamentoTaxa * len(matrizElementos[elemento]):
+            if caracteristica < taxa * len(matrizElementos[elemento]):
                 # A nova matriz terá os mesmos elementos iniciais da matriz anterior(mãe) até chegar na taxa
                 if int(matrizElementos[elemento][caracteristica]) not in (matrizGeracaoNova[elemento]):
                     matrizGeracaoNova[elemento][caracteristica] = matrizElementos[elemento][caracteristica]
@@ -165,27 +164,36 @@ def cruzamento(matrizElementos, taxa):
     return matrizGeracaoNova
 
 
-def aplicacao(geracoes, matrizElementos, matrizCidade):
+def aplicacao(qntgeracao, matrizElementos, matrizCidade):
     """
-    É o programa principal, que faz a passagem das gerações
-    :param geracoes:
-    :param matrizElementos:
+    É o programa principal, que faz o ‘loop’ de gerações.
+    :param qntgeracao: quantidade de gerações, ou seja, quantas vezes o 'loop' irá rodar.
+    :param matrizElementos: é a matriz de individuos.
+    :param matrizCidade: matriz das cidades, dos itinerarios.
+
     :return:
     """
+    # Inicia uma matriz que irá ter a soma dos fit
     matrizFit = list()
+    # Try serve para caso o usuário queira parar em algum momento, o programa não retorne erro.
     try:
-        for linhagem in range(geracoes):
+        for linhagem in range(qntgeracao):
             novosElementos = matrizElementos.copy()
+            # Printa um parametro para ter uma noção de como estão os fit.
             print(sum(fitDistancia(novosElementos, matrizCidade)) / (len(matrizElementos) * (len(matrizElementos[0]))))
+            # Adiciona as fits na matriz
             matrizFit.append(int(sum(fitDistancia(novosElementos, matrizCidade))))
             print(f"Geração: {linhagem}")
+            # Aplicação dos otimizadores.
             novosElementos = cruzamento(novosElementos, cruzamentoTaxa)
             novosElementos = mutacao(novosElementos, mutacaoTaxa, len(matrizCidade))
+            # É o metodo de Seleção! importante para determinar quais gerações serão melhores
+            # A condição, neste caso, serve para selecionar a matriz de individuos que tem o menor fit
             if sum(fitDistancia(novosElementos, matrizCidade)) < sum(fitDistancia(matrizElementos, matrizCidade)):
                 matrizElementos = novosElementos.copy()
             else:
                 matrizElementos = matrizElementos.copy()
-    except:
+    except KeyboardInterrupt:
         return matrizElementos, matrizFit
 
     return matrizElementos, matrizFit
@@ -194,21 +202,21 @@ def aplicacao(geracoes, matrizElementos, matrizCidade):
 # Parametros iniciais (A quantidade de cidades tem que ser obrigatoriamente maior que o número de viagens)
 quantidadeCidades = 10  # Para criar a matriz de cidades
 pessoas = 5  # População
-viagens = 3 # Caracteristicas
-geracoes = 50000
+viagens = 3  # Caracteristicas
+geracoes = 500000
 
 # Parametors para criação de novos individuos
-cruzamentoTaxa = 0.45
-mutacaoTaxa = 0.3
+cruzamentoTaxa = 0.4
+mutacaoTaxa = 0.2
 
 # APLICACAO DO PROGRAMA
 matrizCidades = matrizDistancias(quantidadeCidades)
 elementos = populacao(pessoas, viagens, quantidadeCidades)
 print(elementos)
-print(cruzamento(elementos,cruzamentoTaxa))
-#resultado, matrizfit = aplicacao(geracoes, elementos, matrizCidades)
+print(cruzamento(elementos, cruzamentoTaxa))
+resultado, matrizfit = aplicacao(geracoes, elementos, matrizCidades)
 
-'''print("***MATRIZ PRINCIPAL DAS ROTAS***")
+print("***MATRIZ PRINCIPAL DAS ROTAS***")
 print(matrizCidades)
 print("***** PRIMEIRA GERAÇÃO ******")
 print(elementos)
@@ -226,5 +234,4 @@ plt.xlabel("GERAÇÕES")
 plt.ylabel("SOMA DAS DISTANCIAS")
 plt.show()
 
-print("ericgmicaela@gmail")'''
-
+print("ericgmicaela@gmail")
