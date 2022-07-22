@@ -233,5 +233,4 @@ plt.grid(True)
 plt.xlabel("GERAÇÕES")
 plt.ylabel("SOMA DAS DISTANCIAS")
 plt.show()
-
 print("ericgmicaela@gmail")
