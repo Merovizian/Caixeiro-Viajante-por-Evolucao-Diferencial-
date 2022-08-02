@@ -14,7 +14,7 @@ def matrizDistancias(ordem, menor=1, maior=9):
     # Cria uma matriz quadrada de zeros. Para ser manipulada
     matrizItinerario = np.zeros((ordem, ordem))
 
-    # loop que gera a matriz randomica
+    # loop que gera a matriz random
     for a in range(ordem):
         for b in range(ordem):
             # condição para evitar que a diagonal difira de zero.
@@ -26,7 +26,7 @@ def matrizDistancias(ordem, menor=1, maior=9):
 def fitDistancia(matrizPopulacao, matrizItinerario):
     """
    Função que faz o cálculo da distância percorrida por cada um dos elementos, esse calculo é feito pegando pares de
-   caracteristicas de cada pessoa e aplicando na matriz de distância.
+   características de cada pessoa e aplicando na matriz de distância.
    :param matrizPopulacao: é a matriz que possui a população de cada geração.
    :param matrizItinerario: é a matriz de distâncias, que possui a distância entre os pontos (cidades)
 
@@ -49,7 +49,7 @@ def fitDistancia(matrizPopulacao, matrizItinerario):
                 matrizResultadoDistancia[count] += matrizItinerario[valorA][valorB]
             except IndexError:
                 # O try serve, pois, após pegar as duas últimas caracteristicas o programa tentará pegar um valor
-                # que extrepola o vetor de pessoa
+                # que extrapola o vetor de pessoa
                 pass
     # Retorna uma matriz com o valor da distância percorrida por cada um dos individuos.
     return matrizResultadoDistancia

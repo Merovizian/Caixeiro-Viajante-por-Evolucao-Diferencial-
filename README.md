@@ -27,7 +27,3 @@ E também determinar os valores para cada um dos optimizadores que são:
 ## Feedback
 
 Caso tenha alguma dúvida, sugestão ou tenha encontrado algum erro, por favor mande um email para ericgmicaela@gmail.com
-
-## MaiorOUmenorVetor
-
-Este programa utiliza a mesma forma de otimização do caixeiro viajante, porem com a finalidade de se ter a maior ou menor soma de caracteristicas de cada geração. 
